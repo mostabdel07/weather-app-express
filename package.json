@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon index.js"
+    "start": "nodemon --legacy-watch index.js"
   },
   "author": "",
   "license": "ISC",
@@ -12,9 +12,11 @@
     "axios": "^0.21.1",
     "express": "^4.16.4",
     "ioredis": "^4.27.7",
-    "mongodb": "^3.1.9"
+    "mongodb": "^3.1.9",
+    "uuid": "^8.3.2"
   },
   "devDependencies": {
+    "dotenv": "^10.0.0",
     "nodemon": "^2.0.12"
   }
 }

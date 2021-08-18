@@ -19,7 +19,6 @@ services:
       - "27017:27017"
 
   redis:
-    container_name: redis-cache
     image: redis
     ports:
-      - '6379:6379'
+      - "6379:6379"
