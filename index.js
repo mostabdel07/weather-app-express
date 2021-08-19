@@ -77,9 +77,15 @@ app.get("/cities", (req, res) => {
   dbo
     .collection("cities")
     .find({})
-    .toArray((err, result) => {
-      if (err) throw err;
-      res.json(result);
+    .toArray((err, cities) => {
+      if (err)
+        return res
+          .status(500)
+          .send({ menssage: `Error al realizar la petición: ${err}` });
+      if (!cities)
+        return res.status(404).send({ message: `No existe la coleción` });
+
+      res.send(200, { cities });
     });
 });
 
@@ -87,15 +93,29 @@ app.get("/cities", (req, res) => {
 app.get("/cities/:id", (req, res) => {
   let cityId = req.params.id;
 
-  dbo.collection("cities").findById(cityId, (err, city) => {
+  dbo.collection("cities").findOne({ _id: cityId }, (err, city) => {
     if (err)
       return res
         .status(500)
         .send({ menssage: `Error al realizar la petición: ${err}` });
-    if (!city)
-      return res.status(404).send({ message: `El producto no existe` });
+    if (!city) return res.status(404).send({ message: `No existe la ciudad` });
 
     res.status(200).send({ city: city });
+  });
+});
+
+// Delete from DB
+app.delete("/cities/:id", (req, res) => {
+  let cityId = req.params.id;
+  dbo.collection("cities").findOne({ _id: cityId }, (err, city) => {
+    if (err)
+      return res
+        .status(500)
+        .send({ menssage: `Error al borrar la ciudad: ${err}` });
+    if (!cities)
+      return res.status(404).send({ message: `Error al borrar la ciudad` });
+
+    res.send(200, { message: "La ciudad ha sido eliminada" });
   });
 });
 
